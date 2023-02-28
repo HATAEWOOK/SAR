@@ -1,7 +1,6 @@
 import numpy as np
 import sys
-sys.path.insert(0, './manopth')
-from manopth.manolayer import ManoLayer
+from net.SAR.manopth.manopth.manolayer import ManoLayer
 
 class MANO(object):
     def __init__(self):

@@ -4,8 +4,8 @@ from data.dataset import get_dataset
 from torch.utils.data import DataLoader
 import torch.optim as optim
 from model import get_model
-from config import cfg
-from utils.logger import setup_logger
+from SAR.config import cfg
+from SAR.utils.logger import setup_logger
 
 class Trainer:
     def __init__(self):

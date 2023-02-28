@@ -1,10 +1,12 @@
+import sys
+sys.path.append('.')
 import torch
 import torch.nn as nn
 from torchvision import models
 import torch.nn.functional as F
-from utils.mano import MANO
-from config import cfg
-from loss import EdgeLengthLoss, NormalVectorLoss
+from net.SAR.utils.mano import MANO
+from net.SAR.config import cfg
+from net.SAR.loss import EdgeLengthLoss, NormalVectorLoss
 
 
 class SoftHeatmap(nn.Module):
@@ -138,7 +140,7 @@ class SAR(nn.Module):
         self.edge_loss = EdgeLengthLoss(mano.face)
 
     def forward(self, x, target=None):
-        x = x['img'].to(cfg.device)
+        x = x['image'].to(cfg.device)
         outs = {'coords': []}
         lhms = []
         dms = []
@@ -159,7 +161,7 @@ class SAR(nn.Module):
             dms.append(dm)
         if self.training:
             loss = {}
-            mesh_pose_uvd = target['mesh_pose_uvd'].to(cfg.device)
+            mesh_pose_uvd = target['j3d'].to(cfg.device)
             for i in range(cfg.num_stage):
                 loss['coord_{}'.format(i)] = self.coord_loss(outs['coords'][i], mesh_pose_uvd)
                 loss['normal_{}'.format(i)] = \
